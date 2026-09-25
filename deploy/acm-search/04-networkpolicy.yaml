@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-monitoring-to-postgres-exporter
+  namespace: open-cluster-management
+  labels:
+    app: search
+spec:
+  podSelector:
+    matchLabels:
+      app: search
+      component: search-v2-operator
+      name: search-postgres
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: openshift-monitoring
+    ports:
+    - protocol: TCP
+      port: 9187

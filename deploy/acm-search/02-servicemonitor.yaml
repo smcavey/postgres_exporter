@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: search-postgres-exporter
+  namespace: open-cluster-management
+  labels:
+    app: search
+spec:
+  namespaceSelector:
+    matchNames:
+    - open-cluster-management
+  selector:
+    matchLabels:
+      name: search-postgres-metrics
+  endpoints:
+  - port: metrics
+    interval: 30s
